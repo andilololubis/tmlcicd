@@ -47,6 +47,8 @@ print("Accuracy:", str(round(accuracy, 2) * 100) + "%", "F1:", round(f1, 2))
 with open("Results/metrics.txt", "w") as outfile:
     outfile.write(f"\nAccuracy = {round(accuracy, 2)}, F1 Score = {round(f1, 2)}.")
 
+    import matplotlib
+    matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 from sklearn.metrics import ConfusionMatrixDisplay, confusion_matrix
 
