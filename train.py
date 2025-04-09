@@ -9,7 +9,9 @@ from sklearn.model_selection import train_test_split
 X = drug_df.drop("Drug", axis=1).values
 y = drug_df.Drug.values
 
-X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=0.3, random_state=125)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=125
+)
 
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestClassifier
@@ -17,8 +19,8 @@ from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OrdinalEncoder, StandardScaler
 
-cat_col = [1,2,3]
-num_col = [0,4]
+cat_col = [1, 2, 3]
+num_col = [0, 4]
 
 transform = ColumnTransformer(
     [
@@ -30,8 +32,7 @@ transform = ColumnTransformer(
 pipe = Pipeline(
     steps=[
         ("preprocessing", transform),
-        ("model", RandomForestClassifier(n_estimators=100,
-random_state=125)),
+        ("model", RandomForestClassifier(n_estimators=100, random_state=125)),
     ]
 )
 pipe.fit(X_train, y_train)
@@ -48,6 +49,7 @@ with open("Results/metrics.txt", "w") as outfile:
     outfile.write(f"\nAccuracy = {round(accuracy, 2)}, F1 Score = {round(f1, 2)}.")
 
     import matplotlib
+
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 from sklearn.metrics import ConfusionMatrixDisplay, confusion_matrix
@@ -58,6 +60,8 @@ disp.plot()
 plt.savefig("Results/model_results.png", dpi=120)
 
 import os
+
 os.makedirs("Model", exist_ok=True)
 import skops.io as sio
+
 sio.dump(pipe, "Model/drug_pipeline.skops")
